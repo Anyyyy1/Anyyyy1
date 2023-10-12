@@ -1,0 +1,1375 @@
+1)  Which data structure would you choose to store contacts by name, and why? How would you implement searching for a contact by name efficiently?
+: You are implementing a stack data structure in C. Explain a real-world scenario where using a stack would be beneficial, and provide a code example demonstrating how you'd push and pop elements onto/from the stack.
+
+--> 
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_SIZE 100
+
+// Stack structure
+typedef struct {
+    int items[MAX_SIZE];
+    int top;
+} Stack;
+
+// Initialize stack
+void initialize(Stack *stack) {
+    stack->top = -1;
+}
+
+// Check if stack is empty
+int isEmpty(Stack *stack) {
+    return stack->top == -1;
+}
+
+// Check if stack is full
+int isFull(Stack *stack) {
+    return stack->top == MAX_SIZE - 1;
+}
+
+// Push an element onto the stack
+void push(Stack *stack, int value) {
+    if (isFull(stack)) {
+        printf("Stack overflow! Cannot push %d\n", value);
+        return;
+    }
+
+    stack->items[++stack->top] = value;
+}
+
+// Pop an element from the stack
+int pop(Stack *stack) {
+    if (isEmpty(stack)) {
+        printf("Stack underflow! Cannot pop from an empty stack\n");
+        return -1;
+    }
+
+    return stack->items[stack->top--];
+}
+
+int main() {
+    Stack myStack;
+    initialize(&myStack);
+
+    // Push elements onto the stack
+    push(&myStack, 10);
+    push(&myStack, 20);
+    push(&myStack, 30);
+
+    // Pop elements from the stack
+    printf("Popped: %d\n", pop(&myStack));
+    printf("Popped: %d\n", pop(&myStack));
+    printf("Popped: %d\n", pop(&myStack));
+
+    // Trying to pop from an empty stack
+    printf("Popped: %d\n", pop(&myStack));
+
+    return 0;
+}
+___________________________________________________
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_SIZE 100
+
+// Stack structure
+typedef struct {
+    int items[MAX_SIZE];
+    int top;
+} Stack;
+
+// Initialize stack
+void initialize(Stack *stack) {
+    stack->top = -1;
+}
+
+// Check if stack is empty
+int isEmpty(Stack *stack) {
+    return stack->top == -1;
+}
+
+// Check if stack is full
+int isFull(Stack *stack) {
+    return stack->top == MAX_SIZE - 1;
+}
+
+// Push an element onto the stack
+void push(Stack *stack, int value) {
+    if (isFull(stack)) {
+        printf("Stack overflow! Cannot push %d\n", value);
+        return;
+    }
+
+    stack->items[++stack->top] = value;
+}
+
+// Pop an element from the stack
+int pop(Stack *stack) {
+    if (isEmpty(stack)) {
+        printf("Stack underflow! Cannot pop from an empty stack\n");
+        return -1;
+    }
+
+    return stack->items[stack->top--];
+}
+
+int main() {
+    Stack browserHistory;
+    initialize(&browserHistory);
+
+    // Simulate navigating web pages
+    push(&browserHistory, 1);  // Visit page 1
+    push(&browserHistory, 2);  // Visit page 2
+    push(&browserHistory, 3);  // Visit page 3
+
+    // Pressing the Back button
+    printf("Current Page: %d\n", pop(&browserHistory));  // Go back to page 2
+    printf("Current Page: %d\n", pop(&browserHistory));  // Go back to page 1
+
+    return 0;
+}
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2)  Describe a real-world scenario where using a stack data structure is advantageous. Provide a code snippet in C that demonstrates pushing and popping elements onto/from a stack.
+: In a simple text editor program written in C, how would you implement undo functionality using a data structure? Explain the choice of data structure and provide a basic outline of the code.
+
+-->  
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_SIZE 100
+
+// Stack structure
+typedef struct {
+    char items[MAX_SIZE][256];  // Assuming a maximum line length of 255 characters
+    int top;
+} Stack;
+
+// Initialize stack
+void initialize(Stack *stack) {
+    stack->top = -1;
+}
+
+// Check if stack is empty
+int isEmpty(Stack *stack) {
+    return stack->top == -1;
+}
+
+// Check if stack is full
+int isFull(Stack *stack) {
+    return stack->top == MAX_SIZE - 1;
+}
+
+// Push a state onto the stack
+void push(Stack *stack, const char *text) {
+    if (isFull(stack)) {
+        printf("Stack overflow! Cannot push state\n");
+        return;
+    }
+
+    strcpy(stack->items[++stack->top], text);
+}
+
+// Pop a state from the stack
+void pop(Stack *stack, char *text) {
+    if (isEmpty(stack)) {
+        printf("Stack underflow! Cannot pop from an empty stack\n");
+        return;
+    }
+
+    strcpy(text, stack->items[stack->top--]);
+}
+
+int main() {
+    Stack undoStack;
+    initialize(&undoStack);
+
+    char textBuffer[256];  // Assuming a maximum line length of 255 characters
+    strcpy(textBuffer, "Hello, World!");  // Initial state
+
+    // User performs an edit
+    printf("Current Text: %s\n", textBuffer);
+
+    // Save current state before the edit
+    push(&undoStack, textBuffer);
+
+    // User edits the text
+    strcpy(textBuffer, "Hello, Universe!");
+    printf("Current Text: %s\n", textBuffer);
+
+    // Perform undo
+    pop(&undoStack, textBuffer);
+    printf("Undone Text: %s\n", textBuffer);
+
+    return 0;
+}
+
+
+______________________________________________________________________
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_SIZE 100
+
+// Stack structure
+typedef struct {
+    int items[MAX_SIZE];
+    int top;
+} Stack;
+
+// Initialize stack
+void initialize(Stack *stack) {
+    stack->top = -1;
+}
+
+// Check if stack is empty
+int isEmpty(Stack *stack) {
+    return stack->top == -1;
+}
+
+// Check if stack is full
+int isFull(Stack *stack) {
+    return stack->top == MAX_SIZE - 1;
+}
+
+// Push an element onto the stack
+void push(Stack *stack, int value) {
+    if (isFull(stack)) {
+        printf("Stack overflow! Cannot push %d\n", value);
+        return;
+    }
+
+    stack->items[++stack->top] = value;
+}
+
+// Pop an element from the stack
+int pop(Stack *stack) {
+    if (isEmpty(stack)) {
+        printf("Stack underflow! Cannot pop from an empty stack\n");
+        return -1;
+    }
+
+    return stack->items[stack->top--];
+}
+
+int main() {
+    Stack browserHistory;
+    initialize(&browserHistory);
+
+    // Simulate navigating web pages
+    push(&browserHistory, 1);  // Visit page 1
+    push(&browserHistory, 2);  // Visit page 2
+    push(&browserHistory, 3);  // Visit page 3
+
+    // Pressing the Back button
+    printf("Current Page: %d\n", pop(&browserHistory));  // Go back to page 2
+    printf("Current Page: %d\n", pop(&browserHistory));  // Go back to page 1
+
+    return 0;
+}
+
+________________________________________________________(2)
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+3)   Describe how you would implement undo functionality in a text editor using a data structure in C. Which data structure would you choose, and why?
+: You are tasked with creating a dynamic list of students in a C program. Explain the advantages of using a linked list over an array for this purpose and provide a code snippet to add a new student to the list.
+ --->
+ using linked list
+#include <stdio.h>
+#include <stdlib.h>
+
+// Student structure
+typedef struct Student {
+    int id;
+    char name[50];
+    struct Student *next;
+} Student;
+
+// Function to add a new student to the list
+Student* addStudent(Student *head, int id, const char *name) {
+    // Create a new student
+    Student *newStudent = (Student*)malloc(sizeof(Student));
+    newStudent->id = id;
+    strcpy(newStudent->name, name);
+    newStudent->next = NULL;
+
+    // If the list is empty, the new student becomes the head
+    if (head == NULL) {
+        head = newStudent;
+    } else {
+        // Otherwise, add the new student to the end of the list
+        Student *current = head;
+        while (current->next != NULL) {
+            current = current->next;
+        }
+        current->next = newStudent;
+    }
+
+    return head;
+}
+
+int main() {
+    // Initialize an empty list
+    Student *studentList = NULL;
+
+    // Add students to the list
+    studentList = addStudent(studentList, 1, "John Doe");
+    studentList = addStudent(studentList, 2, "Jane Smith");
+    studentList = addStudent(studentList, 3, "Bob Johnson");
+
+    // Display the list
+    printf("Student List:\n");
+    Student *current = studentList;
+    while (current != NULL) {
+        printf("ID: %d, Name: %s\n", current->id, current->name);
+        current = current->next;
+    }
+
+    return 0;
+}
+
+___________________using stack_____________________
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_SIZE 100
+
+// Stack structure
+typedef struct {
+    char items[MAX_SIZE][256];  // Assuming a maximum line length of 255 characters
+    int top;
+} Stack;
+
+// Initialize stack
+void initialize(Stack *stack) {
+    stack->top = -1;
+}
+
+// Check if stack is empty
+int isEmpty(Stack *stack) {
+    return stack->top == -1;
+}
+
+// Check if stack is full
+int isFull(Stack *stack) {
+    return stack->top == MAX_SIZE - 1;
+}
+
+// Push a state onto the stack
+void push(Stack *stack, const char *text) {
+    if (isFull(stack)) {
+        printf("Stack overflow! Cannot push state\n");
+        return;
+    }
+
+    strcpy(stack->items[++stack->top], text);
+}
+
+// Pop a state from the stack
+void pop(Stack *stack, char *text) {
+    if (isEmpty(stack)) {
+        printf("Stack underflow! Cannot pop from an empty stack\n");
+        return;
+    }
+
+    strcpy(text, stack->items[stack->top--]);
+}
+
+int main() {
+    Stack undoStack;
+    initialize(&undoStack);
+
+    char textBuffer[256];  // Assuming a maximum line length of 255 characters
+    strcpy(textBuffer, "Hello, World!");  // Initial state
+
+    // User performs an edit
+    printf("Current Text: %s\n", textBuffer);
+
+    // Save current state before the edit
+    push(&undoStack, textBuffer);
+
+    // User edits the text
+    strcpy(textBuffer, "Hello, Universe!");
+    printf("Current Text: %s\n", textBuffer);
+
+    // Perform undo
+    pop(&undoStack, textBuffer);
+    printf("Undone Text: %s\n", textBuffer);
+
+    return 0;
+}
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+4)  What are the advantages of using a linked list to manage a dynamic list of students in C? Can you provide a code example to add a new student to the linked list?
+: You are working on a game where you need to keep track of a player's moves. How would you implement a queue data structure in C to store the player's moves, and provide an example of enqueue and dequeue operations?
+
+--->
+      linked list
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Student structure
+typedef struct Student {
+    int id;
+    char name[50];
+    struct Student* next;
+} Student;
+
+// Function to add a new student to the list
+Student* addStudent(Student* head, int id, const char* name) {
+    // Create a new student
+    Student* newStudent = (Student*)malloc(sizeof(Student));
+    newStudent->id = id;
+    strcpy(newStudent->name, name);
+    newStudent->next = NULL;
+
+    // If the list is empty, the new student becomes the head
+    if (head == NULL) {
+        head = newStudent;
+    } else {
+        // Otherwise, add the new student to the end of the list
+        Student* current = head;
+        while (current->next != NULL) {
+            current = current->next;
+        }
+        current->next = newStudent;
+    }
+
+    return head;
+}
+
+int main() {
+    // Initialize an empty list
+    Student* studentList = NULL;
+
+    // Add students to the list
+    studentList = addStudent(studentList, 1, "John Doe");
+    studentList = addStudent(studentList, 2, "Jane Smith");
+    studentList = addStudent(studentList, 3, "Bob Johnson");
+
+    // Display the list
+    printf("Student List:\n");
+    Student* current = studentList;
+    while (current != NULL) {
+        printf("ID: %d, Name: %s\n", current->id, current->name);
+        current = current->next;
+    }
+
+    return 0;
+}
+
+______________implementation of a queue__________________________
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_SIZE 100
+
+// Node structure
+typedef struct Node {
+    int move;
+    struct Node* next;
+} Node;
+
+// Queue structure
+typedef struct {
+    Node* front;
+    Node* rear;
+} Queue;
+
+// Initialize queue
+void initialize(Queue* queue) {
+    queue->front = NULL;
+    queue->rear = NULL;
+}
+
+// Check if queue is empty
+int isEmpty(Queue* queue) {
+    return queue->front == NULL;
+}
+
+// Enqueue operation
+void enqueue(Queue* queue, int move) {
+    // Create a new node
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->move = move;
+    newNode->next = NULL;
+
+    // If the queue is empty, the new node becomes both front and rear
+    if (isEmpty(queue)) {
+        queue->front = newNode;
+        queue->rear = newNode;
+    } else {
+        // Otherwise, add the new node to the rear of the queue
+        queue->rear->next = newNode;
+        queue->rear = newNode;
+    }
+}
+
+// Dequeue operation
+int dequeue(Queue* queue) {
+    if (isEmpty(queue)) {
+        printf("Queue underflow! Cannot dequeue from an empty queue\n");
+        return -1;
+    }
+
+    // Remove the front node and get its move
+    Node* frontNode = queue->front;
+    int move = frontNode->move;
+
+    // Update the front of the queue
+    queue->front = frontNode->next;
+
+    // If the queue becomes empty, update the rear as well
+    if (queue->front == NULL) {
+        queue->rear = NULL;
+    }
+
+    // Free the memory of the dequeued node
+    free(frontNode);
+
+    return move;
+}
+
+int main() {
+    Queue playerMoves;
+    initialize(&playerMoves);
+
+    // Enqueue player moves
+    enqueue(&playerMoves, 1);
+    enqueue(&playerMoves, 2);
+    enqueue(&playerMoves, 3);
+
+    // Dequeue and display player moves
+    printf("Player Moves:\n");
+    printf("Move: %d\n", dequeue(&playerMoves));
+    printf("Move: %d\n", dequeue(&playerMoves));
+    printf("Move: %d\n", dequeue(&playerMoves));
+
+    // Trying to dequeue from an empty queue
+    dequeue(&playerMoves);
+
+    return 0;
+}
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+5)   In the context of a game, explain how you would implement a queue data structure in C to track a player's moves. Provide code for enqueue and dequeue operations.
+: Suppose you are developing a file management system in C. How would you use a tree data structure to represent the file hierarchy? Provide a code snippet to traverse the file structure.
+
+-->
+________use a tree structure for a file system________
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Node structure for the file system tree
+typedef struct TreeNode {
+    char name[50];
+    struct TreeNode* children;
+    struct TreeNode* sibling;
+} TreeNode;
+
+// Function to create a new tree node
+TreeNode* createNode(const char* name) {
+    TreeNode* newNode = (TreeNode*)malloc(sizeof(TreeNode));
+    strcpy(newNode->name, name);
+    newNode->children = NULL;
+    newNode->sibling = NULL;
+    return newNode;
+}
+
+// Function to add a child node to a parent node
+void addChild(TreeNode* parent, TreeNode* child) {
+    if (parent->children == NULL) {
+        parent->children = child;
+    } else {
+        // Find the last sibling and add the new child
+        TreeNode* sibling = parent->children;
+        while (sibling->sibling != NULL) {
+            sibling = sibling->sibling;
+        }
+        sibling->sibling = child;
+    }
+}
+
+// Function to traverse the file system tree (preorder traversal)
+void traverseFileSystem(TreeNode* node, int depth) {
+    if (node == NULL) {
+        return;
+    }
+
+    // Print the current node
+    for (int i = 0; i < depth; ++i) {
+        printf("  ");  // Indentation for visualizing the hierarchy
+    }
+    printf("%s\n", node->name);
+
+    // Recursively traverse children and siblings
+    traverseFileSystem(node->children, depth + 1);
+    traverseFileSystem(node->sibling, depth);
+}
+
+int main() {
+    // Create a sample file system tree
+    TreeNode* root = createNode("Root");
+
+    TreeNode* documents = createNode("Documents");
+    TreeNode* pictures = createNode("Pictures");
+    TreeNode* music = createNode("Music");
+
+    addChild(root, documents);
+    addChild(root, pictures);
+    addChild(root, music);
+
+    TreeNode* resume = createNode("Resume.doc");
+    TreeNode* photo1 = createNode("Photo1.jpg");
+    TreeNode* song1 = createNode("Song1.mp3");
+
+    addChild(documents, resume);
+    addChild(pictures, photo1);
+    addChild(music, song1);
+
+    // Traverse and display the file system tree
+    printf("File System Tree:\n");
+    traverseFileSystem(root, 0);
+
+    return 0;
+}
+
+6)  Describe how you would use a tree data structure to represent a file hierarchy in a C program. Can you provide code for traversing the file structure?
+: You are designing a priority queue for a hospital's patient triage system in C. Explain the importance of a priority queue in this context and provide a code example for inserting and extracting the highest priority patient.
+
+--->
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Node structure for the file system tree
+typedef struct TreeNode {
+    char name[50];
+    struct TreeNode* children;
+    struct TreeNode* sibling;
+} TreeNode;
+
+// Function to create a new tree node
+TreeNode* createNode(const char* name) {
+    TreeNode* newNode = (TreeNode*)malloc(sizeof(TreeNode));
+    strcpy(newNode->name, name);
+    newNode->children = NULL;
+    newNode->sibling = NULL;
+    return newNode;
+}
+
+// Function to add a child node to a parent node
+void addChild(TreeNode* parent, TreeNode* child) {
+    if (parent->children == NULL) {
+        parent->children = child;
+    } else {
+        // Find the last sibling and add the new child
+        TreeNode* sibling = parent->children;
+        while (sibling->sibling != NULL) {
+            sibling = sibling->sibling;
+        }
+        sibling->sibling = child;
+    }
+}
+
+// Function to traverse the file system tree (preorder traversal)
+void traverseFileSystem(TreeNode* node, int depth) {
+    if (node == NULL) {
+        return;
+    }
+
+    // Print the current node
+    for (int i = 0; i < depth; ++i) {
+        printf("  ");  // Indentation for visualizing the hierarchy
+    }
+    printf("%s\n", node->name);
+
+    // Recursively traverse children and siblings
+    traverseFileSystem(node->children, depth + 1);
+    traverseFileSystem(node->sibling, depth);
+}
+
+int main() {
+    // Create a sample file system tree
+    TreeNode* root = createNode("Root");
+
+    TreeNode* documents = createNode("Documents");
+    TreeNode* pictures = createNode("Pictures");
+    TreeNode* music = createNode("Music");
+
+    addChild(root, documents);
+    addChild(root, pictures);
+    addChild(root, music);
+
+    TreeNode* resume = createNode("Resume.doc");
+    TreeNode* photo1 = createNode("Photo1.jpg");
+    TreeNode* song1 = createNode("Song1.mp3");
+
+    addChild(documents, resume);
+    addChild(pictures, photo1);
+    addChild(music, song1);
+
+    // Traverse and display the file system tree
+    printf("File System Tree:\n");
+    traverseFileSystem(root, 0);
+
+    return 0;
+}
+_______________________________________________________________
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Node structure for a patient in the priority queue
+typedef struct PatientNode {
+    char name[50];
+    int priority; // Lower value indicates higher priority
+    struct PatientNode* next;
+} PatientNode;
+
+// Priority Queue structure
+typedef struct {
+    PatientNode* front;
+} PriorityQueue;
+
+// Function to initialize the priority queue
+void initializePriorityQueue(PriorityQueue* queue) {
+    queue->front = NULL;
+}
+
+// Function to check if the priority queue is empty
+int isPriorityQueueEmpty(PriorityQueue* queue) {
+    return queue->front == NULL;
+}
+
+// Function to insert a patient into the priority queue based on priority
+void insertPatient(PriorityQueue* queue, const char* name, int priority) {
+    PatientNode* newPatient = (PatientNode*)malloc(sizeof(PatientNode));
+    strcpy(newPatient->name, name);
+    newPatient->priority = priority;
+    newPatient->next = NULL;
+
+    if (isPriorityQueueEmpty(queue) || priority < queue->front->priority) {
+        // Insert at the front if the queue is empty or has higher priority
+        newPatient->next = queue->front;
+        queue->front = newPatient;
+    } else {
+        // Traverse the queue to find the appropriate position
+        PatientNode* current = queue->front;
+        while (current->next != NULL && priority >= current->next->priority) {
+            current = current->next;
+        }
+        // Insert the new patient after the current node
+        newPatient->next = current->next;
+        current->next = newPatient;
+    }
+}
+
+// Function to extract the highest priority patient from the queue
+void extractHighestPriorityPatient(PriorityQueue* queue, char* name) {
+    if (isPriorityQueueEmpty(queue)) {
+        printf("Priority queue is empty\n");
+        name[0] = '\0';
+        return;
+    }
+
+    // Extract the highest priority patient
+    PatientNode* frontPatient = queue->front;
+    strcpy(name, frontPatient->name);
+
+    // Update the front of the queue
+    queue->front = frontPatient->next;
+
+    // Free the memory of the extracted patient node
+    free(frontPatient);
+}
+
+int main() {
+    PriorityQueue triageQueue;
+    initializePriorityQueue(&triageQueue);
+
+    // Insert patients into the priority queue
+    insertPatient(&triageQueue, "Patient A", 2);
+    insertPatient(&triageQueue, "Patient B", 1);
+    insertPatient(&triageQueue, "Patient C", 3);
+
+    // Extract and display the highest priority patient
+    char highestPriorityPatient[50];
+    extractHighestPriorityPatient(&triageQueue, highestPriorityPatient);
+    printf("Highest Priority Patient: %s\n", highestPriorityPatient);
+
+    // Extract and display the next highest priority patient
+    extractHighestPriorityPatient(&triageQueue, highestPriorityPatient);
+    printf("Next Highest Priority Patient: %s\n", highestPriorityPatient);
+
+    return 0;
+}
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+7)  Why is a priority queue crucial in a hospital's patient triage system, and how would you implement it in C? Show code for inserting and extracting the highest priority patient.
+: You are developing a web browser in C, and you need to manage the browsing history. Describe how you would use a stack data structure to implement the "Back" and "Forward" navigation buttons and provide code for handling these actions.
+
+--->
+#include <stdio.h>
+#include <stdlib.h>
+
+// Node structure for a patient in the priority queue
+typedef struct PatientNode {
+    char name[50];
+    int priority; // Lower value indicates higher priority
+    struct PatientNode* next;
+} PatientNode;
+
+// Priority Queue structure
+typedef struct {
+    PatientNode* front;
+} PriorityQueue;
+
+// Function to initialize the priority queue
+void initializePriorityQueue(PriorityQueue* queue) {
+    queue->front = NULL;
+}
+
+// Function to check if the priority queue is empty
+int isPriorityQueueEmpty(PriorityQueue* queue) {
+    return queue->front == NULL;
+}
+
+// Function to insert a patient into the priority queue based on priority
+void insertPatient(PriorityQueue* queue, const char* name, int priority) {
+    PatientNode* newPatient = (PatientNode*)malloc(sizeof(PatientNode));
+    strcpy(newPatient->name, name);
+    newPatient->priority = priority;
+    newPatient->next = NULL;
+
+    if (isPriorityQueueEmpty(queue) || priority < queue->front->priority) {
+        // Insert at the front if the queue is empty or has higher priority
+        newPatient->next = queue->front;
+        queue->front = newPatient;
+    } else {
+        // Traverse the queue to find the appropriate position
+        PatientNode* current = queue->front;
+        while (current->next != NULL && priority >= current->next->priority) {
+            current = current->next;
+        }
+        // Insert the new patient after the current node
+        newPatient->next = current->next;
+        current->next = newPatient;
+    }
+}
+
+// Function to extract the highest priority patient from the queue
+void extractHighestPriorityPatient(PriorityQueue* queue, char* name) {
+    if (isPriorityQueueEmpty(queue)) {
+        printf("Priority queue is empty\n");
+        name[0] = '\0';
+        return;
+    }
+
+    // Extract the highest priority patient
+    PatientNode* frontPatient = queue->front;
+    strcpy(name, frontPatient->name);
+
+    // Update the front of the queue
+    queue->front = frontPatient->next;
+
+    // Free the memory of the extracted patient node
+    free(frontPatient);
+}
+
+int main() {
+    PriorityQueue triageQueue;
+    initializePriorityQueue(&triageQueue);
+
+    // Insert patients into the priority queue
+    insertPatient(&triageQueue, "Patient A", 2);
+    insertPatient(&triageQueue, "Patient B", 1);
+    insertPatient(&triageQueue, "Patient C", 3);
+
+    // Extract and display the highest priority patient
+    char highestPriorityPatient[50];
+    extractHighestPriorityPatient(&triageQueue, highestPriorityPatient);
+    printf("Highest Priority Patient: %s\n", highestPriorityPatient);
+
+    // Extract and display the next highest priority patient
+    extractHighestPriorityPatient(&triageQueue, highestPriorityPatient);
+    printf("Next Highest Priority Patient: %s\n", highestPriorityPatient);
+
+    return 0;
+}
+
+
+______________________________________________________________
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_PAGES 100
+
+// Stack structure for browsing history
+typedef struct {
+    char pages[MAX_PAGES][50];
+    int top;
+} BrowsingHistoryStack;
+
+// Function to initialize the stack
+void initializeStack(BrowsingHistoryStack* stack) {
+    stack->top = -1;
+}
+
+// Function to check if the stack is empty
+int isStackEmpty(BrowsingHistoryStack* stack) {
+    return stack->top == -1;
+}
+
+// Function to check if the stack is full
+int isStackFull(BrowsingHistoryStack* stack) {
+    return stack->top == MAX_PAGES - 1;
+}
+
+// Function to push a page onto the stack
+void pushPage(BrowsingHistoryStack* stack, const char* page) {
+    if (isStackFull(stack)) {
+        printf("Browsing history stack is full\n");
+        return;
+    }
+
+    strcpy(stack->pages[++stack->top], page);
+}
+
+// Function to pop a page from the stack
+void popPage(BrowsingHistoryStack* stack, char* page) {
+    if (isStackEmpty(stack)) {
+        printf("Browsing history stack is empty\n");
+        page[0] = '\0';
+        return;
+    }
+
+    strcpy(page, stack->pages[stack->top--]);
+}
+
+int main() {
+    BrowsingHistoryStack historyStack;
+    initializeStack(&historyStack);
+
+    // Simulate browsing history
+    pushPage(&historyStack, "Page 1");
+    pushPage(&historyStack, "Page 2");
+    pushPage(&historyStack, "Page 3");
+
+    // Display current page and simulate clicking "Back"
+    char currentPage[50];
+    popPage(&historyStack, currentPage);
+    printf("Current Page: %s\n", currentPage);
+
+    // Display current page and simulate clicking "Forward"
+    pushPage(&historyStack, "Page 4");
+    popPage(&historyStack, currentPage);
+    printf("Current Page: %s\n", currentPage);
+
+    return 0;
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+8)   In the context of a web browser, explain how you would use a stack data structure in C to implement the "Back" and "Forward" navigation buttons. Provide relevant code.
+: You are building a dictionary application in C, and you want to efficiently retrieve word definitions. How would you implement a hash table for this purpose, and provide code for inserting and searching for words in the dictionary?
+
+--->
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_PAGES 100
+
+// Structure to represent a page in the browsing history
+typedef struct {
+    char pageName[50];
+} Page;
+
+// Stack structure for browsing history
+typedef struct {
+    Page pages[MAX_PAGES];
+    int top;
+} BrowsingHistoryStack;
+
+// Function to initialize the stack
+void initializeStack(BrowsingHistoryStack* stack) {
+    stack->top = -1;
+}
+
+// Function to check if the stack is empty
+int isStackEmpty(BrowsingHistoryStack* stack) {
+    return stack->top == -1;
+}
+
+// Function to check if the stack is full
+int isStackFull(BrowsingHistoryStack* stack) {
+    return stack->top == MAX_PAGES - 1;
+}
+
+// Function to push a page onto the stack
+void pushPage(BrowsingHistoryStack* stack, const char* pageName) {
+    if (isStackFull(stack)) {
+        printf("Browsing history stack is full\n");
+        return;
+    }
+
+    strcpy(stack->pages[++stack->top].pageName, pageName);
+}
+
+// Function to pop a page from the stack
+void popPage(BrowsingHistoryStack* stack, char* currentPage) {
+    if (isStackEmpty(stack)) {
+        printf("Browsing history stack is empty\n");
+        currentPage[0] = '\0';
+        return;
+    }
+
+    strcpy(currentPage, stack->pages[stack->top--].pageName);
+}
+
+int main() {
+    BrowsingHistoryStack historyStack;
+    initializeStack(&historyStack);
+
+    // Simulate browsing history
+    pushPage(&historyStack, "Page 1");
+    pushPage(&historyStack, "Page 2");
+    pushPage(&historyStack, "Page 3");
+
+    // Display current page and simulate clicking "Back"
+    char currentPage[50];
+    popPage(&historyStack, currentPage);
+    printf("Current Page: %s\n", currentPage);
+
+    // Display current page and simulate clicking "Forward"
+    pushPage(&historyStack, "Page 4");
+    popPage(&historyStack, currentPage);
+    printf("Current Page: %s\n", currentPage);
+
+    return 0;
+}
+_____________________________________________________________________
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define TABLE_SIZE 100
+
+// Structure to represent a dictionary entry
+typedef struct {
+    char word[50];
+    char definition[200];
+} DictionaryEntry;
+
+// Hash table structure
+typedef struct {
+    DictionaryEntry table[TABLE_SIZE];
+} HashTable;
+
+// Hash function to convert a word into an index
+unsigned int hashFunction(const char* word) {
+    unsigned int hash = 0;
+    while (*word) {
+        hash = (hash * 31) + (*word++);
+    }
+    return hash % TABLE_SIZE;
+}
+
+// Function to insert a word and its definition into the hash table
+void insertWord(HashTable* hashTable, const char* word, const char* definition) {
+    unsigned int index = hashFunction(word);
+    strcpy(hashTable->table[index].word, word);
+    strcpy(hashTable->table[index].definition, definition);
+}
+
+// Function to search for a word in the hash table and retrieve its definition
+int searchWord(const HashTable* hashTable, const char* word, char* definition) {
+    unsigned int index = hashFunction(word);
+    if (strcmp(hashTable->table[index].word, word) == 0) {
+        strcpy(definition, hashTable->table[index].definition);
+        return 1; // Word found
+    } else {
+        definition[0] = '\0';
+        return 0; // Word not found
+    }
+}
+
+int main() {
+    HashTable dictionary;
+    // Initialize the hash table
+    for (int i = 0; i < TABLE_SIZE; ++i) {
+        dictionary.table[i].word[0] = '\0';
+        dictionary.table[i].definition[0] = '\0';
+    }
+
+    // Insert words and definitions into the dictionary
+    insertWord(&dictionary, "apple", "A round fruit with red or green skin and a whitish interior.");
+    insertWord(&dictionary, "banana", "An elongated, edible fruit with a yellow skin and soft, sweet flesh.");
+
+    // Search for words in the dictionary
+    char definition[200];
+    if (searchWord(&dictionary, "apple", definition)) {
+        printf("Definition of 'apple': %s\n", definition);
+    } else {
+        printf("Word 'apple' not found in the dictionary.\n");
+    }
+
+    if (searchWord(&dictionary, "orange", definition)) {
+        printf("Definition of 'orange': %s\n", definition);
+    } else {
+        printf("Word 'orange' not found in the dictionary.\n");
+    }
+
+    return 0;
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+9)  To efficiently retrieve word definitions in a dictionary application, how would you implement a hash table in C? Include code for inserting and searching for words in the dictionary.
+: You are working on a simulation of a traffic intersection control system in C. Explain how you would use a state machine with enum and switch-case statements to manage the traffic light states. Provide a code snippet demonstrating the state transitions.
+
+---->
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define TABLE_SIZE 100
+
+// Structure to represent a dictionary entry
+typedef struct {
+    char word[50];
+    char definition[200];
+} DictionaryEntry;
+
+// Hash table structure
+typedef struct {
+    DictionaryEntry* table[TABLE_SIZE];
+} HashTable;
+
+// Hash function to convert a word into an index
+unsigned int hashFunction(const char* word) {
+    unsigned int hash = 0;
+    while (*word) {
+        hash = (hash * 31) + (*word++);
+    }
+    return hash % TABLE_SIZE;
+}
+
+// Function to initialize the hash table
+void initializeHashTable(HashTable* hashTable) {
+    for (int i = 0; i < TABLE_SIZE; ++i) {
+        hashTable->table[i] = NULL;
+    }
+}
+
+// Function to insert a word and its definition into the hash table
+void insertWord(HashTable* hashTable, const char* word, const char* definition) {
+    unsigned int index = hashFunction(word);
+
+    // Allocate memory for a new entry
+    DictionaryEntry* newEntry = (DictionaryEntry*)malloc(sizeof(DictionaryEntry));
+    if (newEntry == NULL) {
+        fprintf(stderr, "Memory allocation error\n");
+        exit(EXIT_FAILURE);
+    }
+
+    // Copy the word and definition into the new entry
+    strcpy(newEntry->word, word);
+    strcpy(newEntry->definition, definition);
+
+    // Insert the new entry into the hash table
+    hashTable->table[index] = newEntry;
+}
+
+// Function to search for a word in the hash table and retrieve its definition
+int searchWord(const HashTable* hashTable, const char* word, char* definition) {
+    unsigned int index = hashFunction(word);
+    DictionaryEntry* entry = hashTable->table[index];
+
+    while (entry != NULL) {
+        if (strcmp(entry->word, word) == 0) {
+            strcpy(definition, entry->definition);
+            return 1; // Word found
+        }
+        entry = entry->next;
+    }
+
+    definition[0] = '\0';
+    return 0; // Word not found
+}
+
+int main() {
+    HashTable dictionary;
+    initializeHashTable(&dictionary);
+
+    // Insert words and definitions into the dictionary
+    insertWord(&dictionary, "apple", "A round fruit with red or green skin and a whitish interior.");
+    insertWord(&dictionary, "banana", "An elongated, edible fruit with a yellow skin and soft, sweet flesh.");
+
+    // Search for words in the dictionary
+    char definition[200];
+    if (searchWord(&dictionary, "apple", definition)) {
+        printf("Definition of 'apple': %s\n", definition);
+    } else {
+        printf("Word 'apple' not found in the dictionary.\n");
+    }
+
+    if (searchWord(&dictionary, "orange", definition)) {
+        printf("Definition of 'orange': %s\n", definition);
+    } else {
+        printf("Word 'orange' not found in the dictionary.\n");
+    }
+
+    return 0;
+}
+___________________________________________________________________
+
+#include <stdio.h>
+
+// Enumeration representing traffic light states
+enum TrafficLightState {
+    RED,
+    YELLOW,
+    GREEN
+};
+
+// Function to simulate a state transition based on the current state
+enum TrafficLightState nextState(enum TrafficLightState currentState) {
+    switch (currentState) {
+        case RED:
+            return GREEN;
+        case YELLOW:
+            return RED;
+        case GREEN:
+            return YELLOW;
+        default:
+            // Handle invalid state
+            fprintf(stderr, "Invalid traffic light state\n");
+            return RED; // Default to a safe state
+    }
+}
+
+int main() {
+    enum TrafficLightState currentLightState = RED;
+
+    // Simulate state transitions
+    printf("Initial State: RED\n");
+
+    for (int i = 0; i < 3; ++i) {
+        currentLightState = nextState(currentLightState);
+        printf("Next State: ");
+
+        // Display the current state
+        switch (currentLightState) {
+            case RED:
+                printf("RED\n");
+                break;
+            case YELLOW:
+                printf("YELLOW\n");
+                break;
+            case GREEN:
+                printf("GREEN\n");
+                break;
+            default:
+                // Handle invalid state
+                fprintf(stderr, "Invalid traffic light state\n");
+                break;
+        }
+    }
+
+    return 0;
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+10)  In the context of a traffic intersection control system simulation, how would you use a state machine with enum and switch-case statements in C to manage traffic light states? Show code for stateÂ transitions.
+
+-->
+#include <stdio.h>
+
+// Enumeration representing traffic light states
+enum TrafficLightState {
+    RED,
+    GREEN,
+    YELLOW
+};
+
+// Function to handle state transitions
+void performStateTransition(enum TrafficLightState* currentState) {
+    switch (*currentState) {
+        case RED:
+            printf("Switching from RED to GREEN\n");
+            *currentState = GREEN;
+            break;
+        case GREEN:
+            printf("Switching from GREEN to YELLOW\n");
+            *currentState = YELLOW;
+            break;
+        case YELLOW:
+            printf("Switching from YELLOW to RED\n");
+            *currentState = RED;
+            break;
+        default:
+            // Handle invalid state
+            fprintf(stderr, "Invalid traffic light state\n");
+            break;
+    }
+}
+
+int main() {
+    enum TrafficLightState currentLightState = RED;
+
+    // Simulate state transitions
+    for (int i = 0; i < 3; ++i) {
+        printf("Current State: ");
+
+        // Display the current state
+        switch (currentLightState) {
+            case RED:
+                printf("RED\n");
+                break;
+            case GREEN:
+                printf("GREEN\n");
+                break;
+            case YELLOW:
+                printf("YELLOW\n");
+                break;
+            default:
+                // Handle invalid state
+                fprintf(stderr, "Invalid traffic light state\n");
+                break;
+        }
+
+        // Perform state transition
+        performStateTransition(&currentLightState);
+    }
+
+    return 0;
+}
